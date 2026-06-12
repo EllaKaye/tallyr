@@ -12,6 +12,7 @@ An R interface to the 'Tally' form builder API \url{https://developers.tally.so}
 Useful links:
 \itemize{
   \item \url{https://github.com/EllaKaye/tallyr}
+  \item \url{https://ellakaye.github.io/tallyr/}
   \item Report bugs at \url{https://github.com/EllaKaye/tallyr/issues}
 }
 
