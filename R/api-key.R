@@ -1,6 +1,6 @@
 #' Retrieve your Tally API key
 #'
-#' Tally uses personal API keys (no OAuth): create one at
+#' tallyr authenticates with a personal API key: create one at
 #' Tally Settings > API keys (<https://tally.so/settings/api-keys>) and store
 #' it where tallyr can find it.
 #'

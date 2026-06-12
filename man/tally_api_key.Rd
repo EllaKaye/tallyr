@@ -17,7 +17,7 @@ The API key as a string. Errors with setup instructions if no
 key is found.
 }
 \description{
-Tally uses personal API keys (no OAuth): create one at
+tallyr authenticates with a personal API key: create one at
 Tally Settings > API keys (\url{https://tally.so/settings/api-keys}) and store
 it where tallyr can find it.
 }
