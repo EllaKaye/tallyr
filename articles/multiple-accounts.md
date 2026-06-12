@@ -23,7 +23,7 @@ case-insensitive:
 
     TALLY_API_KEY=tly-xxxx
     TALLY_API_KEY_WORK=tly-yyyy
-    TALLY_API_KEY_RLADIES=tly-zzzz
+    TALLY_API_KEY_RAINBOWR=tly-zzzz
 
 Restart R after editing `.Renviron`, then check what tallyr can see with
 [`tally_accounts()`](https://ellakaye.github.io/tallyr/reference/tally_accounts.md):
@@ -31,7 +31,7 @@ Restart R after editing `.Renviron`, then check what tallyr can see with
 ``` r
 
 tally_accounts()
-#> [1] "default" "rladies" "work"
+#> [1] "default" "rainbowr" "work"
 ```
 
 The default account comes first if `TALLY_API_KEY` is set, followed by
@@ -69,10 +69,10 @@ functions that shouldn’t disturb the session’s state:
 
 ``` r
 
-previous <- tally_use_account("rladies")
-#> ✔ Using Tally account "rladies"
+previous <- tally_use_account("rainbowr")
+#> ✔ Using Tally account "rainbowr"
 
-# ... work with the "rladies" account ...
+# ... work with the "rainbowr" account ...
 
 tally_use_account(previous)
 #> ✔ Using the default Tally account
@@ -91,7 +91,7 @@ Every tallyr function that touches the API takes an `account` argument:
 
 ``` r
 
-tally_forms(account = "rladies")
+tally_forms(account = "rainbowr")
 tally_submissions("3xLJ5V", account = "work")
 tally_whoami(account = "work")
 ```

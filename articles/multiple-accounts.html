@@ -88,12 +88,12 @@ named accounts. The <code>&lt;NAME&gt;</code> part becomes the account
 name you use in R, and it’s case-insensitive:</p>
 <pre><code><span><span class="va">TALLY_API_KEY</span><span class="op">=</span><span class="va">tly</span><span class="op">-</span><span class="va">xxxx</span></span>
 <span><span class="va">TALLY_API_KEY_WORK</span><span class="op">=</span><span class="va">tly</span><span class="op">-</span><span class="va">yyyy</span></span>
-<span><span class="va">TALLY_API_KEY_RLADIES</span><span class="op">=</span><span class="va">tly</span><span class="op">-</span><span class="va">zzzz</span></span></code></pre>
+<span><span class="va">TALLY_API_KEY_RAINBOWR</span><span class="op">=</span><span class="va">tly</span><span class="op">-</span><span class="va">zzzz</span></span></code></pre>
 <p>Restart R after editing <code>.Renviron</code>, then check what
 tallyr can see with <code><a href="../reference/tally_accounts.html">tally_accounts()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tally_accounts.html">tally_accounts</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "default" "rladies" "work"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "default" "rainbowr" "work"</span></span></code></pre></div>
 <p>The default account comes first if <code>TALLY_API_KEY</code> is set,
 followed by the named accounts in alphabetical order. You don’t need a
 default account at all: if you prefer, give every account a name and
@@ -120,10 +120,10 @@ account that was active before the switch, so you can restore it
 afterwards – handy in scripts and functions that shouldn’t disturb the
 session’s state:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">previous</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tally_accounts.html">tally_use_account</a></span><span class="op">(</span><span class="st">"rladies"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Using Tally account "rladies"</span></span>
+<code class="sourceCode R"><span><span class="va">previous</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tally_accounts.html">tally_use_account</a></span><span class="op">(</span><span class="st">"rainbowr"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Using Tally account "rainbowr"</span></span>
 <span></span>
-<span><span class="co"># ... work with the "rladies" account ...</span></span>
+<span><span class="co"># ... work with the "rainbowr" account ...</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/tally_accounts.html">tally_use_account</a></span><span class="op">(</span><span class="va">previous</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✔ Using the default Tally account</span></span></code></pre></div>
@@ -140,7 +140,7 @@ authentication failure.</p>
 else. Every tallyr function that touches the API takes an
 <code>account</code> argument:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tally_forms.html">tally_forms</a></span><span class="op">(</span>account <span class="op">=</span> <span class="st">"rladies"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tally_forms.html">tally_forms</a></span><span class="op">(</span>account <span class="op">=</span> <span class="st">"rainbowr"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/tally_submissions.html">tally_submissions</a></span><span class="op">(</span><span class="st">"3xLJ5V"</span>, account <span class="op">=</span> <span class="st">"work"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/tally_whoami.html">tally_whoami</a></span><span class="op">(</span>account <span class="op">=</span> <span class="st">"work"</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>account</code> argument affects only that call; the

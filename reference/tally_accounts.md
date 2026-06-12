@@ -52,10 +52,10 @@ tally_use_account("work")
 tally_forms() # uses the "work" account
 
 # one-off call on another account, without switching:
-tally_forms(account = "rladies")
+tally_forms(account = "rainbowr")
 
 # switch back, restoring whatever was active before:
-previous <- tally_use_account("rladies")
+previous <- tally_use_account("rainbowr")
 tally_use_account(previous)
 } # }
 ```
