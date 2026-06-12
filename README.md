@@ -40,7 +40,7 @@ or, for a quick check that you’re authenticated:
 
 ``` r
 tally_whoami()
-#> ✔ Authenticated with Tally as Ella Kaye (hello@ellakaye.co.uk)
+#> ✔ Authenticated with Tally as Ada Lovelace (ada@example.com)
 ```
 
 ## Multiple accounts
