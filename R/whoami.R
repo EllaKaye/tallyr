@@ -3,6 +3,7 @@
 #' Calls the Tally API's `/users/me` endpoint to confirm that your API key
 #' works, and reports the account it belongs to.
 #'
+#' @inheritParams tally_api_key
 #' @returns Invisibly, a list with the user's details as returned by the
 #'   API (including `id`, `fullName`, `email`, `organizationId` and
 #'   `subscriptionPlan`).
@@ -12,16 +13,17 @@
 #' @examples
 #' \dontrun{
 #' tally_whoami()
+#' tally_whoami(account = "work")
 #' }
-tally_whoami <- function() {
-  user <- tally_user()
+tally_whoami <- function(account = NULL) {
+  user <- tally_user(account)
   cli::cli_alert_success("Authenticated with Tally as {user_label(user)}")
   invisible(user)
 }
 
 # Quiet fetch shared by tally_whoami() and tally_sitrep()
-tally_user <- function() {
-  tally_request("users", "me") |>
+tally_user <- function(account = NULL) {
+  tally_request("users", "me", account = account) |>
     httr2::req_perform() |>
     httr2::resp_body_json()
 }

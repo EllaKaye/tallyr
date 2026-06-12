@@ -8,7 +8,8 @@ tally_submissions(
   form_id,
   filter = c("all", "completed", "partial"),
   start_date = NULL,
-  end_date = NULL
+  end_date = NULL,
+  account = NULL
 )
 }
 \arguments{
@@ -21,6 +22,11 @@ only \code{"completed"}, or only \code{"partial"}.}
 \item{start_date, end_date}{Optionally restrict to submissions made on
 or after/before these dates. A Date, a date-time, or an ISO 8601
 string.}
+
+\item{account}{The name of the Tally account whose key to use, e.g.
+\code{"work"} for a key stored in \code{TALLY_API_KEY_WORK}. The default \code{NULL}
+uses the account selected with \code{\link[=tally_use_account]{tally_use_account()}}, or failing
+that the default account (\code{TALLY_API_KEY}).}
 }
 \value{
 A tibble with one row per submission. The first columns are

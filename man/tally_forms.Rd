@@ -4,11 +4,16 @@
 \alias{tally_forms}
 \title{List your Tally forms}
 \usage{
-tally_forms(workspace_ids = NULL)
+tally_forms(workspace_ids = NULL, account = NULL)
 }
 \arguments{
 \item{workspace_ids}{Optional character vector of workspace IDs to
 restrict the results to.}
+
+\item{account}{The name of the Tally account whose key to use, e.g.
+\code{"work"} for a key stored in \code{TALLY_API_KEY_WORK}. The default \code{NULL}
+uses the account selected with \code{\link[=tally_use_account]{tally_use_account()}}, or failing
+that the default account (\code{TALLY_API_KEY}).}
 }
 \value{
 A tibble with one row per form and columns \code{id}, \code{name},

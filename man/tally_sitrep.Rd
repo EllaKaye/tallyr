@@ -4,15 +4,23 @@
 \alias{tally_sitrep}
 \title{Situation report for your Tally setup}
 \usage{
-tally_sitrep()
+tally_sitrep(account = NULL)
+}
+\arguments{
+\item{account}{The name of the Tally account whose key to use, e.g.
+\code{"work"} for a key stored in \code{TALLY_API_KEY_WORK}. The default \code{NULL}
+uses the account selected with \code{\link[=tally_use_account]{tally_use_account()}}, or failing
+that the default account (\code{TALLY_API_KEY}).}
 }
 \value{
 Invisibly, a list with components \code{api_key} (the key status),
-\code{online} (logical) and \code{user} (the authenticated user, or \code{NULL} if
-the connectivity test failed or wasn't run).
+\code{accounts} (available account names), \code{online} (logical) and \code{user}
+(the authenticated user, or \code{NULL} if the connectivity test failed or
+wasn't run).
 }
 \description{
-Reports everything relevant to tallyr working: whether an API key was
+Reports everything relevant to tallyr working: which accounts have keys
+available and which is active, whether the active account's API key was
 found (and where), whether it looks like a Tally key, whether you are
 online, and whether the key actually authenticates against the Tally
 API. Ends with recommendations for fixing anything that's wrong. Never
@@ -24,5 +32,5 @@ tally_sitrep()
 }
 }
 \seealso{
-\code{\link[=tally_api_key]{tally_api_key()}}, \code{\link[=tally_whoami]{tally_whoami()}}
+\code{\link[=tally_api_key]{tally_api_key()}}, \code{\link[=tally_use_account]{tally_use_account()}}, \code{\link[=tally_whoami]{tally_whoami()}}
 }

@@ -4,7 +4,13 @@
 \alias{tally_api_key}
 \title{Retrieve your Tally API key}
 \usage{
-tally_api_key()
+tally_api_key(account = NULL)
+}
+\arguments{
+\item{account}{The name of the Tally account whose key to use, e.g.
+\code{"work"} for a key stored in \code{TALLY_API_KEY_WORK}. The default \code{NULL}
+uses the account selected with \code{\link[=tally_use_account]{tally_use_account()}}, or failing
+that the default account (\code{TALLY_API_KEY}).}
 }
 \value{
 The API key as a string. Errors with setup instructions if no
@@ -13,20 +19,28 @@ key is found.
 \description{
 Tally uses personal API keys (no OAuth): create one at
 Tally Settings > API keys (\url{https://tally.so/settings/api-keys}) and store
-it where tallyr can find it. The key is looked up first in the
-\code{tallyr.api_key} R option, then in the \code{TALLY_API_KEY} environment
-variable.
+it where tallyr can find it.
 }
 \details{
-For regular use, set \code{TALLY_API_KEY} in your \code{.Renviron} (e.g. via
-\code{usethis::edit_r_environ()}). For a single session, you can instead use
-\code{options(tallyr.api_key = "tly-...")}.
+For the default account, the key is looked up first in the
+\code{tallyr.api_key} R option, then in the \code{TALLY_API_KEY} environment
+variable. For regular use, set \code{TALLY_API_KEY} in your \code{.Renviron}
+(e.g. via \code{usethis::edit_r_environ()}). For a single session, you can
+instead use \code{options(tallyr.api_key = "tly-...")}.
+
+If you work with several Tally accounts, store each account's key in a
+\verb{TALLY_API_KEY_<NAME>} environment variable (e.g. \code{TALLY_API_KEY_WORK}
+for account \code{"work"}). A named account's key comes only from its
+environment variable; the \code{tallyr.api_key} option is not consulted.
+See \code{\link[=tally_use_account]{tally_use_account()}} for switching accounts.
 }
 \examples{
 \dontrun{
 tally_api_key()
+tally_api_key(account = "work")
 }
 }
 \seealso{
-\code{\link[=tally_sitrep]{tally_sitrep()}} to diagnose your setup.
+\code{\link[=tally_use_account]{tally_use_account()}} and \code{\link[=tally_accounts]{tally_accounts()}} for working with
+multiple accounts, \code{\link[=tally_sitrep]{tally_sitrep()}} to diagnose your setup.
 }

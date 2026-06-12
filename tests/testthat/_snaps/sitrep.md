@@ -6,8 +6,12 @@
       
       -- tallyr situation report -----------------------------------------------------
       
+      -- Accounts 
+      ! No account keys found in environment variables
+      i Active account: "default" (the default)
+      
       -- API key 
-      x No API key found
+      x No API key found for account "default"
       
       -- Connectivity 
       v Internet: online
@@ -16,8 +20,7 @@
       -- Recommendations 
       * Create an API key at <https://tally.so/settings/api-keys>
       * Set `TALLY_API_KEY` in your '.Renviron' (e.g. with
-      `usethis::edit_r_environ()`), or use `options(tallyr.api_key = )` for the
-      current session
+      `usethis::edit_r_environ()`)
 
 # tally_sitrep() reports a working setup
 
@@ -26,6 +29,10 @@
     Message
       
       -- tallyr situation report -----------------------------------------------------
+      
+      -- Accounts 
+      i Account with a key available: "default"
+      i Active account: "default" (the default)
       
       -- API key 
       v API key found
@@ -47,6 +54,10 @@
       
       -- tallyr situation report -----------------------------------------------------
       
+      -- Accounts 
+      i Account with a key available: "default"
+      i Active account: "default" (the default)
+      
       -- API key 
       v API key found
       i Source: Environment variable: TALLY_API_KEY
@@ -59,6 +70,31 @@
       -- Recommendations 
       * Check your key is current, or regenerate it at
       <https://tally.so/settings/api-keys>
+
+# tally_sitrep() suggests switching when others have keys
+
+    Code
+      result <- tally_sitrep()
+    Message
+      
+      -- tallyr situation report -----------------------------------------------------
+      
+      -- Accounts 
+      i Account with a key available: "work"
+      i Active account: "default" (the default)
+      
+      -- API key 
+      x No API key found for account "default"
+      
+      -- Connectivity 
+      v Internet: online
+      i Skipping API connection test
+      
+      -- Recommendations 
+      * Create an API key at <https://tally.so/settings/api-keys>
+      * Set `TALLY_API_KEY` in your '.Renviron' (e.g. with
+      `usethis::edit_r_environ()`)
+      * Or switch to an account with a key: `tally_use_account("work")`
 
 # tally_whoami() reports the authenticated user
 

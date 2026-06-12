@@ -5,6 +5,7 @@
 #'
 #' @param workspace_ids Optional character vector of workspace IDs to
 #'   restrict the results to.
+#' @inheritParams tally_api_key
 #' @returns A tibble with one row per form and columns `id`, `name`,
 #'   `status` (`"BLANK"`, `"DRAFT"`, `"PUBLISHED"` or `"DELETED"`),
 #'   `number_of_submissions`, `is_closed`, `workspace_id`, `created_at`
@@ -15,8 +16,8 @@
 #' \dontrun{
 #' tally_forms()
 #' }
-tally_forms <- function(workspace_ids = NULL) {
-  req <- tally_request("forms")
+tally_forms <- function(workspace_ids = NULL, account = NULL) {
+  req <- tally_request("forms", account = account)
   if (!is.null(workspace_ids)) {
     req <- httr2::req_url_query(
       req,

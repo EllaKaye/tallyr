@@ -4,7 +4,13 @@
 \alias{tally_whoami}
 \title{Check who you are authenticated as on Tally}
 \usage{
-tally_whoami()
+tally_whoami(account = NULL)
+}
+\arguments{
+\item{account}{The name of the Tally account whose key to use, e.g.
+\code{"work"} for a key stored in \code{TALLY_API_KEY_WORK}. The default \code{NULL}
+uses the account selected with \code{\link[=tally_use_account]{tally_use_account()}}, or failing
+that the default account (\code{TALLY_API_KEY}).}
 }
 \value{
 Invisibly, a list with the user's details as returned by the
@@ -18,6 +24,7 @@ works, and reports the account it belongs to.
 \examples{
 \dontrun{
 tally_whoami()
+tally_whoami(account = "work")
 }
 }
 \seealso{

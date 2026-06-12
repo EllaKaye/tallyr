@@ -11,6 +11,7 @@
 #' @param start_date,end_date Optionally restrict to submissions made on
 #'   or after/before these dates. A Date, a date-time, or an ISO 8601
 #'   string.
+#' @inheritParams tally_api_key
 #' @returns A tibble with one row per submission. The first columns are
 #'   `submission_id`, `submitted_at` and `is_completed`; the remaining
 #'   columns are the form's questions, in form order, named by their
@@ -28,14 +29,15 @@ tally_submissions <- function(
   form_id,
   filter = c("all", "completed", "partial"),
   start_date = NULL,
-  end_date = NULL
+  end_date = NULL,
+  account = NULL
 ) {
   if (!is.character(form_id) || length(form_id) != 1 || !nzchar(form_id)) {
     cli::cli_abort("{.arg form_id} must be a single string.")
   }
   filter <- rlang::arg_match(filter)
 
-  req <- tally_request("forms", form_id, "submissions") |>
+  req <- tally_request("forms", form_id, "submissions", account = account) |>
     httr2::req_url_query(
       filter = filter,
       startDate = format_tally_date(start_date),
