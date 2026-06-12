@@ -37,15 +37,15 @@ case-insensitive:
 ```
 TALLY_API_KEY=tly-xxxx
 TALLY_API_KEY_WORK=tly-yyyy
-TALLY_API_KEY_RLADIES=tly-zzzz
+TALLY_API_KEY_RAINBOWR=tly-zzzz
 ```
 
 Restart R after editing `.Renviron`, then check what tallyr can see with
 `tally_accounts()`:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 tally_accounts()
-#> [1] "default" "rladies" "work"
+#> [1] "default" "rainbowr" "work"
 ```
 
 The default account comes first if `TALLY_API_KEY` is set, followed by the
@@ -58,7 +58,7 @@ all: if you prefer, give every account a name and skip the bare
 `tally_use_account()` switches the active account for the rest of the
 session. Every tallyr function then uses that account:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 tally_use_account("work")
 #> ✔ Using Tally account "work"
 
@@ -68,7 +68,7 @@ tally_whoami() # reports the "work" user
 
 Switch back to the default account with `NULL` or `"default"`:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 tally_use_account("default")
 #> ✔ Using the default Tally account
 ```
@@ -77,11 +77,11 @@ tally_use_account("default")
 active before the switch, so you can restore it afterwards -- handy in
 scripts and functions that shouldn't disturb the session's state:
 
-```{r, eval = FALSE}
-previous <- tally_use_account("rladies")
-#> ✔ Using Tally account "rladies"
+```{r, eval=FALSE}
+previous <- tally_use_account("rainbowr")
+#> ✔ Using Tally account "rainbowr"
 
-# ... work with the "rladies" account ...
+# ... work with the "rainbowr" account ...
 
 tally_use_account(previous)
 #> ✔ Using the default Tally account
@@ -97,8 +97,8 @@ later with a confusing authentication failure.
 You don't have to switch accounts to make a single call as someone else.
 Every tallyr function that touches the API takes an `account` argument:
 
-```{r, eval = FALSE}
-tally_forms(account = "rladies")
+```{r, eval=FALSE}
+tally_forms(account = "rainbowr")
 tally_submissions("3xLJ5V", account = "work")
 tally_whoami(account = "work")
 ```
@@ -132,7 +132,7 @@ named accounts.
 argument, so you can confirm which Tally user a key belongs to without
 switching:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 tally_whoami(account = "work")
 #> ✔ Authenticated with Tally as Ada Lovelace (ada@lovelace.industries)
 

@@ -3,9 +3,9 @@ test_that("tally_accounts() lists accounts with keys, default first", {
   withr::local_envvar(
     TALLY_API_KEY = "tly-default",
     TALLY_API_KEY_WORK = "tly-work",
-    TALLY_API_KEY_RLADIES = "tly-rladies"
+    TALLY_API_KEY_RAINBOWR = "tly-rainbowr"
   )
-  expect_equal(tally_accounts(), c("default", "rladies", "work"))
+  expect_equal(tally_accounts(), c("default", "rainbowr", "work"))
 })
 
 test_that("tally_accounts() works without a default key, or any keys", {
@@ -46,7 +46,7 @@ test_that("tally_use_account() errors for an account without a key", {
     TALLY_API_KEY = "tly-default",
     TALLY_API_KEY_WORK = "tly-work"
   )
-  expect_snapshot(tally_use_account("rladies"), error = TRUE)
+  expect_snapshot(tally_use_account("rainbowr"), error = TRUE)
 })
 
 test_that("account resolution: argument beats option beats default", {
@@ -54,14 +54,14 @@ test_that("account resolution: argument beats option beats default", {
   withr::local_envvar(
     TALLY_API_KEY = "tly-default",
     TALLY_API_KEY_WORK = "tly-work",
-    TALLY_API_KEY_RLADIES = "tly-rladies"
+    TALLY_API_KEY_RAINBOWR = "tly-rainbowr"
   )
 
   expect_equal(tally_api_key(), "tly-default")
 
   withr::local_options(tallyr.account = "work")
   expect_equal(tally_api_key(), "tly-work")
-  expect_equal(tally_api_key(account = "rladies"), "tly-rladies")
+  expect_equal(tally_api_key(account = "rainbowr"), "tly-rainbowr")
 })
 
 test_that("a named account ignores the tallyr.api_key option", {
@@ -76,5 +76,5 @@ test_that("a named account ignores the tallyr.api_key option", {
 test_that("tally_api_key() errors helpfully for a named account", {
   local_clean_tally_state()
   withr::local_envvar(TALLY_API_KEY_WORK = "tly-work")
-  expect_snapshot(tally_api_key(account = "rladies"), error = TRUE)
+  expect_snapshot(tally_api_key(account = "rainbowr"), error = TRUE)
 })

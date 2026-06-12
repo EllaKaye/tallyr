@@ -27,7 +27,7 @@ conference feedback survey with a handful of questions.
 library(tallyr)
 ```
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 feedback <- tally_submissions("3xLJ5V")
 feedback
 #> # A tibble: 42 × 6
@@ -60,7 +60,7 @@ appears on the form -- including spaces and punctuation. That keeps the
 columns self-describing, at the cost of names that need backticks in R
 code:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 feedback$`What's your name?`
 ```
 
@@ -68,7 +68,7 @@ If the form has two questions with the same title, the names are made
 unique by appending `...` and the column's position, in the same way as
 `tibble::as_tibble()` repairs duplicate names:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 names(tally_submissions("9aKp3T"))
 #> [1] "submission_id"        "submitted_at"         "is_completed"
 #> [4] "What's your name?"    "Favourite colour?...5" "Favourite colour?...6"
@@ -105,7 +105,7 @@ requires them -- base R works just as well.
 Question titles make awkward variable names, so renaming is usually the
 first step:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 library(dplyr)
 
 feedback <- tally_submissions("3xLJ5V") |>
@@ -121,7 +121,7 @@ feedback <- tally_submissions("3xLJ5V") |>
 Since answers arrive as strings, convert columns that are really numbers,
 dates, or factors:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 ratings <- tally_submissions("5cRw8Y") |>
   rename(rating = `How would you rate the event? (1-5)`) |>
   mutate(rating = as.integer(rating))
@@ -136,7 +136,7 @@ Checkbox answers with several selections come back as one
 comma-separated string. To analyse the individual options, split them
 into rows:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 library(tidyr)
 
 feedback |>
@@ -149,7 +149,7 @@ feedback |>
 `submitted_at` is a POSIXct in UTC. To report in your local time zone,
 convert with `lubridate::with_tz()` (or `format()` in base R):
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 feedback |>
   mutate(submitted_local = lubridate::with_tz(submitted_at, "Europe/London"))
 ```
@@ -160,7 +160,7 @@ Some filtering is better done by the API than after import, since it
 reduces what's downloaded. `tally_submissions()` can restrict by
 completion status and by date:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 # only submissions where the respondent finished the form
 tally_submissions("3xLJ5V", filter = "completed")
 
@@ -174,7 +174,7 @@ tally_submissions("3xLJ5V", start_date = "2026-01-01", end_date = "2026-06-30")
 Anything finer-grained than that -- filtering on answers, say -- is a job
 for `dplyr::filter()` after import:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 feedback |>
   filter(!is.na(comments))
 ```

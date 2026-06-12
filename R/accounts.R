@@ -28,10 +28,10 @@
 #' tally_forms() # uses the "work" account
 #'
 #' # one-off call on another account, without switching:
-#' tally_forms(account = "rladies")
+#' tally_forms(account = "rainbowr")
 #'
 #' # switch back, restoring whatever was active before:
-#' previous <- tally_use_account("rladies")
+#' previous <- tally_use_account("rainbowr")
 #' tally_use_account(previous)
 #' }
 tally_accounts <- function() {
@@ -39,7 +39,11 @@ tally_accounts <- function() {
   vars <- vars[startsWith(vars, "TALLY_API_KEY")]
   vars <- vars[nzchar(Sys.getenv(vars))]
 
-  named <- sort(tolower(sub("^TALLY_API_KEY_", "", setdiff(vars, "TALLY_API_KEY"))))
+  named <- sort(tolower(sub(
+    "^TALLY_API_KEY_",
+    "",
+    setdiff(vars, "TALLY_API_KEY")
+  )))
   if ("TALLY_API_KEY" %in% vars) {
     c("default", named)
   } else {

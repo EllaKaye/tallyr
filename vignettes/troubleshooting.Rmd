@@ -50,7 +50,7 @@ errors, whatever state your setup is in.
 
 A healthy setup looks like this:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 tally_sitrep()
 #>
 #> ── tallyr situation report ─────────────────────────────────────────────
@@ -111,7 +111,7 @@ Two common traps when the key *is* in `.Renviron` but still isn't found:
   for the named account `<NAME>`. If the Accounts section shows a key
   available under another name, the report will suggest switching:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 #> ── Recommendations
 #> • Create an API key at <https://tally.so/settings/api-keys>
 #> • Set `TALLY_API_KEY` in your '.Renviron' (e.g. with
@@ -156,7 +156,7 @@ key section warns that it may not be a Tally key at all -- a hint that
 the wrong value (a key for some other service, say) ended up in the
 variable:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 #> ── API key
 #> ✔ API key found
 #> ℹ Source: Environment variable: TALLY_API_KEY
@@ -165,7 +165,7 @@ variable:
 
 ## Offline
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 #> ── Connectivity
 #> ✖ Internet: offline
 #> ℹ Skipping API connection test

@@ -64,7 +64,7 @@ If you work with several Tally accounts, store each account's key in its own
 ```
 TALLY_API_KEY=tly-xxxx
 TALLY_API_KEY_WORK=tly-yyyy
-TALLY_API_KEY_RLADIES=tly-zzzz
+TALLY_API_KEY_RAINBOWR=tly-zzzz
 ```
 
 `tally_accounts()` lists the accounts with a key available, and
@@ -72,7 +72,7 @@ TALLY_API_KEY_RLADIES=tly-zzzz
 
 ```{r, eval = FALSE}
 tally_accounts()
-#> [1] "default" "rladies" "work"
+#> [1] "default" "rainbowr" "work"
 
 tally_use_account("work")
 #> ✔ Using Tally account "work"
@@ -83,7 +83,7 @@ Every API function also takes an `account` argument for one-off calls
 without switching:
 
 ```{r, eval=FALSE}
-tally_forms(account = "rladies")
+tally_forms(account = "rainbowr")
 ```
 
 ## Importing form data

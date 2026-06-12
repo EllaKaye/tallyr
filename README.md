@@ -50,14 +50,14 @@ own `TALLY_API_KEY_<NAME>` environment variable:
 
     TALLY_API_KEY=tly-xxxx
     TALLY_API_KEY_WORK=tly-yyyy
-    TALLY_API_KEY_RLADIES=tly-zzzz
+    TALLY_API_KEY_RAINBOWR=tly-zzzz
 
 `tally_accounts()` lists the accounts with a key available, and
 `tally_use_account()` switches between them for the rest of the session:
 
 ``` r
 tally_accounts()
-#> [1] "default" "rladies" "work"
+#> [1] "default" "rainbowr" "work"
 
 tally_use_account("work")
 #> ✔ Using Tally account "work"
@@ -68,7 +68,7 @@ Every API function also takes an `account` argument for one-off calls
 without switching:
 
 ``` r
-tally_forms(account = "rladies")
+tally_forms(account = "rainbowr")
 ```
 
 ## Importing form data
