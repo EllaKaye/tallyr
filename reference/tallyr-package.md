@@ -10,6 +10,8 @@ Useful links:
 
 - <https://github.com/EllaKaye/tallyr>
 
+- <https://ellakaye.github.io/tallyr/>
+
 - Report bugs at <https://github.com/EllaKaye/tallyr/issues>
 
 ## Author

@@ -1,0 +1,201 @@
+# Troubleshooting your Tally setup
+
+When tallyr isn’t working, the cause is almost always one of a few
+things: no API key where tallyr looks for it, a wrong or expired key, or
+no internet connection. The package has two functions for telling these
+apart:
+[`tally_whoami()`](https://ellakaye.github.io/tallyr/reference/tally_whoami.md)
+as a quick yes/no check, and
+[`tally_sitrep()`](https://ellakaye.github.io/tallyr/reference/tally_sitrep.md)
+for a full report.
+
+The code in this vignette isn’t run at build time; the output shown
+illustrates what you’d see in each situation.
+
+``` r
+
+library(tallyr)
+```
+
+## The quick check: tally_whoami()
+
+[`tally_whoami()`](https://ellakaye.github.io/tallyr/reference/tally_whoami.md)
+calls the Tally API and reports who you’re authenticated as. If it
+succeeds, your setup works:
+
+``` r
+
+tally_whoami()
+#> ✔ Authenticated with Tally as Ada Lovelace (ada@example.com)
+```
+
+If it errors, move on to
+[`tally_sitrep()`](https://ellakaye.github.io/tallyr/reference/tally_sitrep.md).
+
+## The full report: tally_sitrep()
+
+[`tally_sitrep()`](https://ellakaye.github.io/tallyr/reference/tally_sitrep.md)
+checks everything relevant to tallyr working: which accounts have keys
+available and which is active, whether the active account’s key was
+found (and where), whether it looks like a Tally key, whether you’re
+online, and whether the key actually authenticates. It ends with
+recommendations for fixing anything that’s wrong, and it never errors,
+whatever state your setup is in.
+
+A healthy setup looks like this:
+
+``` r
+
+tally_sitrep()
+#>
+#> ── tallyr situation report ─────────────────────────────────────────────
+#>
+#> ── Accounts
+#> ℹ Account with a key available: "default"
+#> ℹ Active account: "default" (the default)
+#>
+#> ── API key
+#> ✔ API key found
+#> ℹ Source: Environment variable: TALLY_API_KEY
+#> ✔ Key format looks valid (starts with "tly-")
+#>
+#> ── Connectivity
+#> ✔ Internet: online
+#> ✔ Authenticated as Ada Lovelace (ada@example.com)
+#>
+#> ── Recommendations
+#> ✔ tallyr setup looks good!
+```
+
+The sections below walk through the situations it can catch.
+
+## No API key found
+
+``` r
+
+tally_sitrep()
+#>
+#> ── tallyr situation report ─────────────────────────────────────────────
+#>
+#> ── Accounts
+#> ! No account keys found in environment variables
+#> ℹ Active account: "default" (the default)
+#>
+#> ── API key
+#> ✖ No API key found for account "default"
+#>
+#> ── Connectivity
+#> ✔ Internet: online
+#> ℹ Skipping API connection test
+#>
+#> ── Recommendations
+#> • Create an API key at <https://tally.so/settings/api-keys>
+#> • Set `TALLY_API_KEY` in your '.Renviron' (e.g. with
+#> `usethis::edit_r_environ()`)
+```
+
+tallyr couldn’t find a key for the active account. To fix it, follow the
+recommendations: create a key at [Tally Settings \> API
+keys](https://tally.so/settings/api-keys) and set it in your
+`.Renviron`.
+
+Two common traps when the key *is* in `.Renviron` but still isn’t found:
+
+- **R hasn’t been restarted.** `.Renviron` is only read at startup, so
+  restart R after editing it.
+- **The key is set for a different account.** tallyr looks in
+  `TALLY_API_KEY` for the default account, and in `TALLY_API_KEY_<NAME>`
+  for the named account `<NAME>`. If the Accounts section shows a key
+  available under another name, the report will suggest switching:
+
+``` r
+
+#> ── Recommendations
+#> • Create an API key at <https://tally.so/settings/api-keys>
+#> • Set `TALLY_API_KEY` in your '.Renviron' (e.g. with
+#> `usethis::edit_r_environ()`)
+#> • Or switch to an account with a key: `tally_use_account("work")`
+```
+
+See
+[`vignette("multiple-accounts")`](https://ellakaye.github.io/tallyr/articles/multiple-accounts.md)
+for how named accounts work.
+
+## Key found, but rejected by the API
+
+``` r
+
+tally_sitrep()
+#>
+#> ── tallyr situation report ─────────────────────────────────────────────
+#>
+#> ── Accounts
+#> ℹ Account with a key available: "default"
+#> ℹ Active account: "default" (the default)
+#>
+#> ── API key
+#> ✔ API key found
+#> ℹ Source: Environment variable: TALLY_API_KEY
+#> ✔ Key format looks valid (starts with "tly-")
+#>
+#> ── Connectivity
+#> ✔ Internet: online
+#> ✖ Tally API connection failed: HTTP 401 Unauthorized.
+#>
+#> ── Recommendations
+#> • Check your key is current, or regenerate it at
+#> <https://tally.so/settings/api-keys>
+```
+
+A key was found and sent, but Tally refused it – typically because the
+key was revoked or mistyped. Compare the value in your `.Renviron`
+against the keys listed at [Tally Settings \> API
+keys](https://tally.so/settings/api-keys), or generate a fresh one.
+
+Relatedly, Tally API keys start with `tly-`. If yours doesn’t, the API
+key section warns that it may not be a Tally key at all – a hint that
+the wrong value (a key for some other service, say) ended up in the
+variable:
+
+``` r
+
+#> ── API key
+#> ✔ API key found
+#> ℹ Source: Environment variable: TALLY_API_KEY
+#> ! Key does not start with "tly-", so may not be a Tally API key
+```
+
+## Offline
+
+``` r
+
+#> ── Connectivity
+#> ✖ Internet: offline
+#> ℹ Skipping API connection test
+#>
+#> ── Recommendations
+#> • Reconnect to the internet to use the Tally API
+```
+
+Nothing wrong with your tallyr setup – the API just can’t be reached.
+
+## Where tallyr looks for keys
+
+For reference, when a tallyr function needs a key for the **default**
+account, it checks, in order:
+
+1.  The `tallyr.api_key` R option (useful for setting a key for a single
+    session, with `options(tallyr.api_key = "tly-...")`).
+2.  The `TALLY_API_KEY` environment variable.
+
+A **named** account’s key comes only from its `TALLY_API_KEY_<NAME>`
+environment variable; the option is never consulted. The Source line in
+[`tally_sitrep()`](https://ellakaye.github.io/tallyr/reference/tally_sitrep.md)’s
+API key section tells you which of these supplied the active key, which
+helps when a stale option or an unexpected environment variable is
+shadowing the key you meant to use.
+
+If you can’t tell which account is even active, the Accounts section
+reports it, along with how it was chosen: the default, set by
+[`tally_use_account()`](https://ellakaye.github.io/tallyr/reference/tally_accounts.md),
+or passed as an `account` argument.

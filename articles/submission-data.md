@@ -1,0 +1,183 @@
+# Working with submission data
+
+[`tally_submissions()`](https://ellakaye.github.io/tallyr/reference/tally_submissions.md)
+turns the Tally API’s nested representation of a form’s submissions into
+a flat, wide tibble that’s ready for the usual data-wrangling tools.
+This vignette describes the shape of that tibble in detail, then shows
+some common patterns for tidying it.
+
+Since the code needs a live API key and a real form, it isn’t run when
+the vignette is built; the output shown is from an example form, a
+conference feedback survey with a handful of questions.
+
+``` r
+
+library(tallyr)
+```
+
+``` r
+
+feedback <- tally_submissions("3xLJ5V")
+feedback
+#> # A tibble: 42 × 6
+#>   submission_id submitted_at        is_completed `What's your name?`
+#>   <chr>         <dttm>              <lgl>        <chr>
+#> 1 nWxyzA        2026-06-01 10:00:00 TRUE         Ada
+#> 2 nWxyzB        2026-06-02 11:30:00 TRUE         Grace
+#> 3 nWxyzC        2026-06-02 14:15:00 FALSE        NA
+#> # ℹ 39 more rows
+#> # ℹ 2 more variables: `Which sessions did you attend?` <chr>,
+#> #   `Any other comments?` <chr>
+```
+
+## The shape of the tibble
+
+There is one row per submission. The first three columns are always:
+
+- `submission_id`: Tally’s identifier for the submission.
+- `submitted_at`: when it was submitted, as a POSIXct date-time in UTC.
+- `is_completed`: whether the respondent finished the form, or abandoned
+  it partway (a “partial” submission).
+
+The remaining columns are the form’s questions, in form order, one
+column per question.
+
+### Column names come from question titles
+
+Each question column is named by the question’s title, exactly as it
+appears on the form – including spaces and punctuation. That keeps the
+columns self-describing, at the cost of names that need backticks in R
+code:
+
+``` r
+
+feedback$`What's your name?`
+```
+
+If the form has two questions with the same title, the names are made
+unique by appending `...` and the column’s position, in the same way as
+[`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html)
+repairs duplicate names:
+
+``` r
+
+names(tally_submissions("9aKp3T"))
+#> [1] "submission_id"        "submitted_at"         "is_completed"
+#> [4] "What's your name?"    "Favourite colour?...5" "Favourite colour?...6"
+```
+
+### Answers are formatted strings
+
+Every question column is a character vector, whatever the question type.
+tallyr uses the formatted answer that the Tally API provides as a
+consistent string representation across question types, falling back to
+the raw answer (with multiple parts joined by `", "`) when there is no
+formatted version.
+
+In practice that means:
+
+- Text questions give the text as entered.
+- Multiple-choice and checkbox questions give the chosen option labels,
+  comma-separated when more than one was selected (e.g.
+  `"Teal, Purple"`).
+- Numeric and date questions arrive as strings, so convert them yourself
+  if you want to compute with them (see below).
+
+A question a respondent didn’t answer is `NA`. Partial submissions
+typically have `NA` for every question after the point where the
+respondent stopped.
+
+## Tidying patterns
+
+These examples use dplyr and friends, but nothing about the tibble
+requires them – base R works just as well.
+
+### Renaming question columns
+
+Question titles make awkward variable names, so renaming is usually the
+first step:
+
+``` r
+
+library(dplyr)
+
+feedback <- tally_submissions("3xLJ5V") |>
+  rename(
+    name = `What's your name?`,
+    sessions = `Which sessions did you attend?`,
+    comments = `Any other comments?`
+  )
+```
+
+### Converting answer types
+
+Since answers arrive as strings, convert columns that are really
+numbers, dates, or factors:
+
+``` r
+
+ratings <- tally_submissions("5cRw8Y") |>
+  rename(rating = `How would you rate the event? (1-5)`) |>
+  mutate(rating = as.integer(rating))
+
+ratings |>
+  count(rating)
+```
+
+### Splitting multi-select answers
+
+Checkbox answers with several selections come back as one
+comma-separated string. To analyse the individual options, split them
+into rows:
+
+``` r
+
+library(tidyr)
+
+feedback |>
+  separate_longer_delim(sessions, delim = ", ") |>
+  count(sessions, sort = TRUE)
+```
+
+### Working with submission times
+
+`submitted_at` is a POSIXct in UTC. To report in your local time zone,
+convert with `lubridate::with_tz()` (or
+[`format()`](https://rdrr.io/r/base/format.html) in base R):
+
+``` r
+
+feedback |>
+  mutate(submitted_local = lubridate::with_tz(submitted_at, "Europe/London"))
+```
+
+## Filtering at import time
+
+Some filtering is better done by the API than after import, since it
+reduces what’s downloaded.
+[`tally_submissions()`](https://ellakaye.github.io/tallyr/reference/tally_submissions.md)
+can restrict by completion status and by date:
+
+``` r
+
+# only submissions where the respondent finished the form
+tally_submissions("3xLJ5V", filter = "completed")
+
+# only abandoned, partial submissions
+tally_submissions("3xLJ5V", filter = "partial")
+
+# a date window; accepts Dates, date-times, or ISO 8601 strings
+tally_submissions("3xLJ5V", start_date = "2026-01-01", end_date = "2026-06-30")
+```
+
+Anything finer-grained than that – filtering on answers, say – is a job
+for `dplyr::filter()` after import:
+
+``` r
+
+feedback |>
+  filter(!is.na(comments))
+```
+
+For an overview of the rest of the package, see
+[`vignette("tallyr")`](https://ellakaye.github.io/tallyr/articles/tallyr.md).

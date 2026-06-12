@@ -38,7 +38,7 @@ or, for a quick check that you’re authenticated:
 ``` r
 
 tally_whoami()
-#> ✔ Authenticated with Tally as Ella Kaye (hello@ellakaye.co.uk)
+#> ✔ Authenticated with Tally as Ada Lovelace (ada@example.com)
 ```
 
 ## Multiple accounts
@@ -133,3 +133,18 @@ limit of 100 requests per minute.
 - [`tally_whoami()`](https://ellakaye.github.io/tallyr/reference/tally_whoami.md)
   : Check who you are authenticated as on Tally
 
+# Articles
+
+### Articles
+
+- [Managing multiple Tally
+  accounts](https://ellakaye.github.io/tallyr/articles/multiple-accounts.md):
+- [Working with submission
+  data](https://ellakaye.github.io/tallyr/articles/submission-data.md):
+- [Troubleshooting your Tally
+  setup](https://ellakaye.github.io/tallyr/articles/troubleshooting.md):
+
+### Get started
+
+- [Get started with
+  tallyr](https://ellakaye.github.io/tallyr/articles/tallyr.md):

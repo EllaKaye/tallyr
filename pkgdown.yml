@@ -1,8 +1,12 @@
 pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
-articles: {}
-last_built: 2026-06-12T09:34Z
+articles:
+  multiple-accounts: multiple-accounts.html
+  submission-data: submission-data.html
+  tallyr: tallyr.html
+  troubleshooting: troubleshooting.html
+last_built: 2026-06-12T10:03Z
 urls:
   reference: https://ellakaye.github.io/tallyr/reference
   article: https://ellakaye.github.io/tallyr/articles
