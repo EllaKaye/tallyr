@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/EllaKaye/tallyr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EllaKaye/tallyr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 tallyr is an R interface to the [Tally](https://tally.so) form builder
