@@ -7,7 +7,7 @@ Description: An R interface to the 'Tally' form builder API
     <https://developers.tally.so>. Authenticate with an API key, list
     your forms, and import form submissions as tidy tibbles.
 License: MIT + file LICENSE
-URL: https://github.com/EllaKaye/tallyr
+URL: https://github.com/EllaKaye/tallyr, https://ellakaye.github.io/tallyr/
 BugReports: https://github.com/EllaKaye/tallyr/issues
 Depends:
     R (>= 4.1)
