@@ -3,3 +3,4 @@
 ^LICENSE\.md$
 ^plans$
 ^\.claude$
+^README\.Rmd$

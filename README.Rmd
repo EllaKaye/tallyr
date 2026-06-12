@@ -1,61 +1,76 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # tallyr
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 tallyr is an R interface to the [Tally](https://tally.so) form builder
-[API](https://developers.tally.so). Authenticate with an API key, list
-your forms, and import form submissions as tidy tibbles.
+[API](https://developers.tally.so). Authenticate with an API key, list your
+forms, and import form submissions as tidy tibbles.
 
 ## Installation
 
 You can install the development version of tallyr from GitHub with:
 
-``` r
+```{r, eval = FALSE}
 # install.packages("pak")
 pak::pak("EllaKaye/tallyr")
 ```
 
 ## Authentication
 
-Tally uses personal API keys. Create one at [Tally Settings \> API
+Tally uses personal API keys. Create one at [Tally Settings > API
 keys](https://tally.so/settings/api-keys), then store it in the
-`TALLY_API_KEY` environment variable in your `.Renviron` (e.g. via
+`TALLY_API_KEY` environment variable in your `.Renviron` (e.g. via
 `usethis::edit_r_environ()`):
 
-    TALLY_API_KEY=tly-xxxx
+```
+TALLY_API_KEY=tly-xxxx
+```
 
 To check your setup, run:
 
-``` r
+```{r, eval = FALSE}
 library(tallyr)
 tally_sitrep()
 ```
 
-or, for a quick check that you’re authenticated:
+or, for a quick check that you're authenticated:
 
-``` r
+```{r, eval = FALSE}
 tally_whoami()
 #> ✔ Authenticated with Tally as Ella Kaye (hello@ellakaye.co.uk)
 ```
 
 ## Multiple accounts
 
-If you work with several Tally accounts, store each account’s key in its
-own `TALLY_API_KEY_<NAME>` environment variable:
+If you work with several Tally accounts, store each account's key in its own
+`TALLY_API_KEY_<NAME>` environment variable:
 
-    TALLY_API_KEY=tly-xxxx
-    TALLY_API_KEY_WORK=tly-yyyy
-    TALLY_API_KEY_RLADIES=tly-zzzz
+```
+TALLY_API_KEY=tly-xxxx
+TALLY_API_KEY_WORK=tly-yyyy
+TALLY_API_KEY_RLADIES=tly-zzzz
+```
 
 `tally_accounts()` lists the accounts with a key available, and
 `tally_use_account()` switches between them for the rest of the session:
 
-``` r
+```{r, eval = FALSE}
 tally_accounts()
 #> [1] "default" "rladies" "work"
 
@@ -67,7 +82,7 @@ tally_forms() # uses the "work" account
 Every API function also takes an `account` argument for one-off calls
 without switching:
 
-``` r
+```{r, eval = FALSE}
 tally_forms(account = "rladies")
 ```
 
@@ -75,7 +90,7 @@ tally_forms(account = "rladies")
 
 List your forms to find the ID of the one you want:
 
-``` r
+```{r, eval = FALSE}
 tally_forms()
 #> # A tibble: 2 × 8
 #>   id     name                status    number_of_submissions is_closed …
@@ -83,10 +98,10 @@ tally_forms()
 #> 2 7bQm2W Workshop signup     DRAFT                         0 FALSE
 ```
 
-Then import its submissions as a wide tibble, with one row per
-submission and one column per question:
+Then import its submissions as a wide tibble, with one row per submission
+and one column per question:
 
-``` r
+```{r, eval = FALSE}
 tally_submissions("3xLJ5V")
 #> # A tibble: 42 × 5
 #>   submission_id submitted_at        is_completed `What's your name?` …
@@ -97,7 +112,7 @@ tally_submissions("3xLJ5V")
 
 Submissions can be filtered by completion status and date:
 
-``` r
+```{r, eval = FALSE}
 tally_submissions(
   "3xLJ5V",
   filter = "completed",
@@ -105,5 +120,5 @@ tally_submissions(
 )
 ```
 
-All functions handle pagination automatically and respect Tally’s rate
+All functions handle pagination automatically and respect Tally's rate
 limit of 100 requests per minute.
