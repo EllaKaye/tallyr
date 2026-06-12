@@ -1,0 +1,67 @@
+{
+  "page": 1,
+  "limit": 500,
+  "hasMore": false,
+  "totalNumberOfSubmissionsPerFilter": {
+    "all": 2,
+    "completed": 1,
+    "partial": 1
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "INPUT_TEXT",
+      "title": "What's your name?",
+      "formId": "form123"
+    },
+    {
+      "id": "q2",
+      "type": "MULTIPLE_CHOICE",
+      "title": "Favourite colour?",
+      "formId": "form123"
+    },
+    {
+      "id": "q3",
+      "type": "INPUT_TEXT",
+      "title": "Favourite colour?",
+      "formId": "form123"
+    }
+  ],
+  "submissions": [
+    {
+      "id": "sub_abc",
+      "formId": "form123",
+      "isCompleted": true,
+      "submittedAt": "2026-06-01T10:00:00.000Z",
+      "responses": [
+        {
+          "questionId": "q1",
+          "answer": "Ada",
+          "formattedAnswer": "Ada"
+        },
+        {
+          "questionId": "q2",
+          "answer": ["opt_1", "opt_2"],
+          "formattedAnswer": "Teal, Purple"
+        },
+        {
+          "questionId": "q3",
+          "answer": "It's calming",
+          "formattedAnswer": "It's calming"
+        }
+      ]
+    },
+    {
+      "id": "sub_def",
+      "formId": "form123",
+      "isCompleted": false,
+      "submittedAt": "2026-06-02T11:30:00.000Z",
+      "responses": [
+        {
+          "questionId": "q1",
+          "answer": "Grace"
+        }
+      ]
+    }
+  ]
+}

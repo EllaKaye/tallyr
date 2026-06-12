@@ -1,3 +1,5 @@
 ^tallyr\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^plans$
+^\.claude$

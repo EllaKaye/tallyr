@@ -1,10 +1,28 @@
 Package: tallyr
-Title: Wraps the tally.so API
+Title: Import Form Data from 'Tally'
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:
     person("Ella", "Kaye", , "hello@ellakaye.co.uk", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: An R interface to the 'Tally' form builder API
+    <https://developers.tally.so>. Authenticate with an API key, list
+    your forms, and import form submissions as tidy tibbles.
 License: MIT + file LICENSE
+URL: https://github.com/EllaKaye/tallyr
+BugReports: https://github.com/EllaKaye/tallyr/issues
+Depends:
+    R (>= 4.1)
+Imports:
+    cli,
+    curl,
+    httr2 (>= 1.1.0),
+    purrr,
+    rlang,
+    tibble
+Suggests:
+    jsonlite,
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 8.0.0

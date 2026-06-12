@@ -1,0 +1,79 @@
+# tallyr
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+tallyr is an R interface to the [Tally](https://tally.so) form builder
+[API](https://developers.tally.so). Authenticate with an API key, list
+your forms, and import form submissions as tidy tibbles.
+
+## Installation
+
+You can install the development version of tallyr from GitHub with:
+
+``` r
+# install.packages("pak")
+pak::pak("EllaKaye/tallyr")
+```
+
+## Authentication
+
+Tally uses personal API keys. Create one at [Tally Settings > API
+keys](https://tally.so/settings/api-keys), then store it in the
+`TALLY_API_KEY` environment variable in your `.Renviron` (e.g. via
+`usethis::edit_r_environ()`):
+
+```
+TALLY_API_KEY=tly-xxxx
+```
+
+To check your setup, run:
+
+``` r
+library(tallyr)
+tally_sitrep()
+```
+
+or, for a quick check that you're authenticated:
+
+``` r
+tally_whoami()
+#> ✔ Authenticated with Tally as Ella Kaye (hello@ellakaye.co.uk)
+```
+
+## Importing form data
+
+List your forms to find the ID of the one you want:
+
+``` r
+tally_forms()
+#> # A tibble: 2 × 8
+#>   id     name                status    number_of_submissions is_closed …
+#> 1 3xLJ5V Conference feedback PUBLISHED                    42 FALSE
+#> 2 7bQm2W Workshop signup     DRAFT                         0 FALSE
+```
+
+Then import its submissions as a wide tibble, with one row per
+submission and one column per question:
+
+``` r
+tally_submissions("3xLJ5V")
+#> # A tibble: 42 × 5
+#>   submission_id submitted_at        is_completed `What's your name?` …
+#> 1 nWxyzA        2026-06-01 10:00:00 TRUE         Ada
+#> 2 nWxyzB        2026-06-02 11:30:00 TRUE         Grace
+#> # …
+```
+
+Submissions can be filtered by completion status and date:
+
+``` r
+tally_submissions(
+  "3xLJ5V",
+  filter = "completed",
+  start_date = "2026-01-01"
+)
+```
+
+All functions handle pagination automatically and respect Tally's rate
+limit of 100 requests per minute.
